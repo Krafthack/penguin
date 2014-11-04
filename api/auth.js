@@ -1,5 +1,6 @@
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
+var AccessToken = require('./model/access-token');
 var express = require('express');
 
 var init = function(config) {
@@ -16,7 +17,10 @@ var init = function(config) {
       callbackURL: config.callback
     },
     function(token, tokenSecret, profile, done) {
-      done(null, { user: 'user' });;
+      AccessToken.findOrCreate({ token: token, secret: tokenSecret  }, function(err, token) {
+        if (err) { return done(err); }
+        done(null, token);
+      });
     }
   ));
 
