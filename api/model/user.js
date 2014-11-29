@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var AccessToken = require('./access-token');
 
 var User = new mongoose.Schema({
     username: {
